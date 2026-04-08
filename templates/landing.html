@@ -17,7 +17,7 @@
         </p>
         <div class="hero-actions">
             <a href="{{ url_for('register') }}" class="btn-primary btn-dark">Create free account</a>
-            <a href="#how-it-works" class="btn-primary btn-dark">See how it works</a>
+            <button type="button" class="btn-primary btn-dark" id="how-it-works-btn">See how it works</button>
         </div>
     </div>
     <div class="hero-visual">
@@ -95,5 +95,51 @@
         <a href="{{ url_for('register') }}" class="btn-primary">Create free account</a>
     </div>
 </section>
+
+<div class="modal-overlay" id="video-modal">
+    <div class="modal-content">
+        <button class="modal-close" id="modal-close-btn">
+            <span>&times;</span>
+        </button>
+        <div class="modal-video-container">
+            <iframe id="modal-video" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+    </div>
+</div>
+
+<script>
+(function() {
+    const modal = document.getElementById('video-modal');
+    const openBtn = document.getElementById('how-it-works-btn');
+    const closeBtn = document.getElementById('modal-close-btn');
+    const video = document.getElementById('modal-video');
+    const videoUrl = 'https://www.youtube.com/embed/dQw4w9WgXcQ';
+
+    function openModal() {
+        modal.classList.add('modal-open');
+        video.src = videoUrl + '?autoplay=1';
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+        modal.classList.remove('modal-open');
+        video.src = '';
+        document.body.style.overflow = '';
+    }
+
+    openBtn.addEventListener('click', openModal);
+    closeBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+            closeModal();
+        }
+    });
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && modal.classList.contains('modal-open')) {
+            closeModal();
+        }
+    });
+})();
+</script>
 
 {% endblock %}
